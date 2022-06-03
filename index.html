@@ -1,0 +1,670 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>PiBS - Advanced IaC &amp; DevOps with Terraform</title><style>
+    /* cspell:disable-file */
+    /* webkit printing magic: print all background colors */
+    html {
+        -webkit-print-color-adjust: exact;
+    }
+    * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    @media only screen {
+        body {
+            margin: 2em auto;
+            max-width: 900px;
+            color: rgb(55, 53, 47);
+        }
+    }
+    
+    body {
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    
+    a,
+    a.visited {
+        color: inherit;
+        text-decoration: underline;
+    }
+    
+    .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+    }
+    
+    h1,
+    h2,
+    h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+    }
+    
+    h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+    }
+    
+    .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+    }
+    
+    .callout {
+        border-radius: 3px;
+        padding: 1rem;
+    }
+    
+    figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+    }
+    
+    figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+    }
+    
+    mark {
+        background-color: transparent;
+    }
+    
+    .indented {
+        padding-left: 1.5em;
+    }
+    
+    hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+    
+    img {
+        max-width: 100%;
+    }
+    
+    @media only print {
+        img {
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    }
+    
+    @page {
+        margin: 1in;
+    }
+    
+    .collection-content {
+        font-size: 0.875rem;
+    }
+    
+    .column-list {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .column {
+        padding: 0 1em;
+    }
+    
+    .column:first-child {
+        padding-left: 0;
+    }
+    
+    .column:last-child {
+        padding-right: 0;
+    }
+    
+    .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+    }
+    
+    .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+    }
+    
+    .table_of_contents-indent-2 {
+        margin-left: 3rem;
+    }
+    
+    .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+    }
+    
+    .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+    }
+    
+    table {
+        border-left: none;
+        border-right: none;
+    }
+    
+    th,
+    td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+    }
+    
+    th {
+        color: rgba(55, 53, 47, 0.6);
+    }
+    
+    ol,
+    ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+    }
+    
+    li > ol:first-child,
+    li > ul:first-child {
+        margin-block-start: 0.6em;
+    }
+    
+    ul > li {
+        list-style: disc;
+    }
+    
+    ul.to-do-list {
+        text-indent: -1.7em;
+    }
+    
+    ul.to-do-list > li {
+        list-style: none;
+    }
+    
+    .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+    }
+    
+    ul.toggle > li {
+        list-style: none;
+    }
+    
+    ul {
+        padding-inline-start: 1.7em;
+    }
+    
+    ul > li {
+        padding-left: 0.1em;
+    }
+    
+    ol {
+        padding-inline-start: 1.6em;
+    }
+    
+    ol > li {
+        padding-left: 0.2em;
+    }
+    
+    .mono ol {
+        padding-inline-start: 2em;
+    }
+    
+    .mono ol > li {
+        text-indent: -0.4em;
+    }
+    
+    .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+    }
+    
+    /* Indent toggle children */
+    .toggle > li > details {
+        padding-left: 1.7em;
+    }
+    
+    .toggle > li > details > summary {
+        margin-left: -1.1em;
+    }
+    
+    .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+    }
+    
+    .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+    }
+    
+    .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+    }
+    .simple-table td {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table th {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+    }
+    .simple-table-header {
+        font-weight: 500;
+    }
+    
+    time {
+        opacity: 0.5;
+    }
+    
+    .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+    }
+    
+    img.icon {
+        border-radius: 3px;
+    }
+    
+    .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+    }
+    
+    .user-icon-inner {
+        font-size: 0.8em;
+    }
+    
+    .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+    }
+    
+    .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+    }
+    
+    .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+    }
+    
+    .page-header-icon img {
+        border-radius: 3px;
+    }
+    
+    .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+    }
+    
+    p > .user {
+        opacity: 0.5;
+    }
+    
+    td > .user,
+    td > time {
+        white-space: nowrap;
+    }
+    
+    input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+    }
+    
+    p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+    .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+    }
+    
+    .code,
+    code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+    }
+    
+    code {
+        color: #eb5757;
+    }
+    
+    .code {
+        padding: 1.5em 1em;
+    }
+    
+    .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    
+    .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+    }
+    
+    blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+    }
+    
+    .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+    }
+    
+    .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+    }
+    
+    .bookmark-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+    }
+    
+    .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+    }
+    
+    .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+    }
+    
+    .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+    .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+    .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+    .pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+    .pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+    .pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+    .pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+    .pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+    .pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+    .pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+    .pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+    .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .highlight-default {
+        color: rgba(55, 53, 47, 1);
+    }
+    .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .block-color-default {
+        color: inherit;
+        fill: inherit;
+    }
+    .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+    .select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+    .select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+    .select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+    .select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+    .select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+    .select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+    .select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+    .select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+    .select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+    
+    .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+    }
+    
+    .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+    
+    .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+        
+    </style></head><body><article id="64530d7c-2665-40f6-91d5-c5762440c6af" class="page sans"><header><img class="page-cover-image" src="https://www.notion.so/images/page-cover/nasa_ibm_type_704.jpg" style="object-position:center 19.999999999999996%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚜</span></div><h1 class="page-title">PiBS - Advanced IaC &amp; DevOps with Terraform</h1></header><div class="page-body"><nav id="f2bb3c8c-f7d8-40bf-821f-21b3e286176c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#fb809f69-1f61-43a7-bd04-debd43a3a0ae">AWS CloudFormation</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4309829e-8235-4f67-b1fb-51a75b2fa7b8">Terraform</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#bbd04720-c5c4-4275-9d6d-97ba40b8a545">Videos</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#02a8cb69-cb05-45a6-a4fd-13663bc6ef9f">Hands-on tutorials</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#4b8e3440-3c21-4a28-9ad2-fe2f28ce24ff">Source control &amp; CodeCommit</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c8794324-35e2-47e7-b08c-fba4cdfcaf5f">Git basics</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#54de4e31-b3db-4da2-afa1-1c9e0e849f5e">Git + Github</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#51d6afb6-3d34-4b6a-ac63-075095d59651">Git advanced</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1f256cf4-c22f-4ecf-aa43-cd962e44f9f3">CodeCommit: the AWS way to git</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3179eee0-894a-4b0a-b725-a41a0fbd3861">CI/CD : what does it mean?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0d14178a-c80c-486b-9ef3-3694004aba6b">CI/CD with AWS: Code* tools</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#be3a007e-8afe-4f74-94c2-a623f10c8925">Overview</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#55086de5-ba30-4989-ac9c-24598f37db5a">Pipeline for containerised apps</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#aa4581d5-8c93-4a1b-8699-53d1830ed6ba">CodeDeploy</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e4e9703c-dd19-4c8a-b633-351f2d36afbd">Local build with CodeBuild</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#2d77ebeb-7414-4d76-b1fa-21d4e7b49bee">Advanced topics</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#fafbc905-f640-494c-a0fa-99b466b04c8e">End-to-end example: deploying a .net application with code* tools</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#bef7bd6a-be94-4c22-b5d3-b75d1ae56a53">Exercise</a></div></nav><h1 id="fb809f69-1f61-43a7-bd04-debd43a3a0ae" class="">AWS CloudFormation</h1><figure id="68801b35-51a8-4922-b61c-44b3fd331d9c"><div class="source"><a href="https://youtu.be/eOBq__h4OJ4">https://youtu.be/eOBq__h4OJ4</a></div></figure><figure id="5333e4f0-914d-4dbf-8b40-38c1c8abbb20"><div class="source"><a href="https://youtu.be/6R44BADNJA8">https://youtu.be/6R44BADNJA8</a></div></figure><figure id="1f91f6d7-1580-4d82-b899-fdf2a224079a"><div class="source"><a href="https://youtu.be/1h-GPXQrLZw">https://youtu.be/1h-GPXQrLZw</a></div></figure><figure id="d0e33749-798d-4010-bca4-46e3d13872d1"><div class="source"><a href="https://youtu.be/GP-wknHzPpI">https://youtu.be/GP-wknHzPpI</a></div></figure><figure id="bca260f1-072a-4013-bfc6-b3142ce665d9"><div class="source"><a href="https://youtu.be/KXUsyApAI3Y">https://youtu.be/KXUsyApAI3Y</a></div></figure><h1 id="4309829e-8235-4f67-b1fb-51a75b2fa7b8" class="">Terraform</h1><h2 id="bbd04720-c5c4-4275-9d6d-97ba40b8a545" class="">Videos</h2><figure id="5f5f88eb-876c-4b82-91ec-c2c30c33fad2"><div class="source"><a href="https://youtu.be/h970ZBgKINg">https://youtu.be/h970ZBgKINg</a></div></figure><figure id="73f6aa91-99f6-4fb9-a5bc-d533a6a4d2c4"><div class="source"><a href="https://youtu.be/l5k1ai_GBDE">https://youtu.be/l5k1ai_GBDE</a></div></figure><figure id="277bdefb-ec65-4228-a094-8e81d410bf70"><div class="source"><a href="https://youtu.be/SLB_c_ayRMo">https://youtu.be/SLB_c_ayRMo</a></div></figure><h2 id="02a8cb69-cb05-45a6-a4fd-13663bc6ef9f" class="">Hands-on tutorials</h2><figure id="9d29b25f-e1e8-4c82-9843-82d4eb27458c"><a href="https://learn.hashicorp.com/collections/terraform/aws-get-started" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Get Started - AWS | Terraform - HashiCorp Learn</div><div class="bookmark-description">Build, change, and destroy AWS infrastructure using Terraform. Step-by-step, command-line tutorials will walk you through the Terraform basics for the first time.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/aws-get-started</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><figure id="7d5fdac3-3c77-4657-91d1-8e9fa4dc866c"><a href="https://learn.hashicorp.com/collections/terraform/cli" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Use the Command Line Interface | Terraform - HashiCorp Learn</div><div class="bookmark-description">Use the Terraform Command Line Interface (CLI) to manage infrastructure, and interact with Terraform state, providers, configuration files, and Terraform Cloud.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/cli</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><figure id="abc42f36-9851-4e69-b1a1-d2c80d703a8d"><a href="https://learn.hashicorp.com/collections/terraform/configuration-language" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Write Terraform Configuration | Terraform - HashiCorp Learn</div><div class="bookmark-description">Learn Terraform configuration language by example. Write configurations to manage multiple pieces of infrastructure and iterate over structured data. Deploy and manage related infrastructure by referring to resources in other configurations.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/configuration-language</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><figure id="bfd5862e-adf5-47b7-9a01-868c1ed6801c"><a href="https://learn.hashicorp.com/collections/terraform/state" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Manage Terraform State | Terraform - HashiCorp Learn</div><div class="bookmark-description">Manage Terraform state. Follow these tutorials to import existing infrastructure and manipulate state storage.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/state</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><figure id="e801afad-afb0-4e1c-bb14-6bb236c5e172"><a href="https://learn.hashicorp.com/collections/terraform/modules" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Reuse Configuration with Modules | Terraform - HashiCorp Learn</div><div class="bookmark-description">Create and use Terraform modules to organize your configuration. Host a static website in AWS using two modules: one from the Terraform Registry and one you will build yourself. Organize configuration using directories and workspaces.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/modules</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><figure id="6571501c-c75c-4623-85d6-4b5298cf268b"><a href="https://learn.hashicorp.com/collections/terraform/provision" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Provision Infrastructure | Terraform - HashiCorp Learn</div><div class="bookmark-description">Install software, edit files, and provision machines created with Terraform. Use Packer or Cloud-Init to automatically provision SSH keys and a web server onto a Linux VM created by Terraform in AWS.</div></div><div class="bookmark-href"><img src="https://learn.hashicorp.com/img/favicons/favicon-192x192.png" class="icon bookmark-icon"/>https://learn.hashicorp.com/collections/terraform/provision</div></div><img src="https://www.datocms-assets.com/2885/1622161215-learn-card-2x.jpg" class="bookmark-image"/></a></figure><h1 id="4b8e3440-3c21-4a28-9ad2-fe2f28ce24ff" class="">Source control &amp; CodeCommit</h1><h2 id="c8794324-35e2-47e7-b08c-fba4cdfcaf5f" class="">Git basics</h2><figure id="794a47b5-a9a6-4631-937b-011d56abcde6"><div class="source"><a href="https://youtu.be/USjZcfj8yxE">https://youtu.be/USjZcfj8yxE</a></div></figure><h2 id="54de4e31-b3db-4da2-afa1-1c9e0e849f5e" class="">Git + Github</h2><figure id="4091b24c-1d1b-47dd-8c5c-94f279b08d3e"><div class="source"><a href="https://youtu.be/RGOj5yH7evk">https://youtu.be/RGOj5yH7evk</a></div></figure><h2 id="51d6afb6-3d34-4b6a-ac63-075095d59651" class="">Git advanced</h2><figure id="b6f3a796-0dc8-4e5e-ab24-efdf467678c1"><div class="source"><a href="https://youtu.be/Uszj_k0DGsg">https://youtu.be/Uszj_k0DGsg</a></div></figure><figure id="1095dacc-69d4-44f9-8159-10138affa035"><div class="source"><a href="https://youtu.be/qsTthZi23VE">https://youtu.be/qsTthZi23VE</a></div></figure><h2 id="1f256cf4-c22f-4ecf-aa43-cd962e44f9f3" class="">CodeCommit: the AWS way to git</h2><figure id="73e486f3-acfb-4e9d-8bd2-0874f9cf1d23"><div class="source"><a href="https://youtu.be/46PRLMW8otg">https://youtu.be/46PRLMW8otg</a></div></figure><figure id="2c13bf20-0bf1-489c-9026-439ad789b74b"><div class="source"><a href="https://youtu.be/teXiG9C57Jk">https://youtu.be/teXiG9C57Jk</a></div></figure><h1 id="3179eee0-894a-4b0a-b725-a41a0fbd3861" class="">CI/CD : what does it mean?</h1><figure id="b558d6d9-dead-4413-b852-c5a934900ac4"><div class="source"><a href="https://youtu.be/scEDHsr3APg">https://youtu.be/scEDHsr3APg</a></div></figure><figure id="a2b5f9a9-ceff-49aa-949f-0ae17b441ff5"><div class="source"><a href="https://youtu.be/1er2cjUq1UI">https://youtu.be/1er2cjUq1UI</a></div></figure><figure id="3cc78a40-0dd2-41c1-95c2-81d63b07c0eb"><div class="source"><a href="https://youtu.be/2TTU5BB-k9U">https://youtu.be/2TTU5BB-k9U</a></div></figure><figure id="e0e7a673-0074-4891-a179-d7abbb6fffba"><div class="source"><a href="https://youtu.be/LNLKZ4Rvk8w">https://youtu.be/LNLKZ4Rvk8w</a></div></figure><figure id="e1acf2b2-4a79-4d58-9856-3a5023395945"><div class="source"><a href="https://youtu.be/RYQbmjLgubM">https://youtu.be/RYQbmjLgubM</a></div></figure><h1 id="0d14178a-c80c-486b-9ef3-3694004aba6b" class="">CI/CD with AWS: Code* tools</h1><h2 id="be3a007e-8afe-4f74-94c2-a623f10c8925" class="">Overview</h2><figure id="f0377462-0fd3-49c8-9990-75e028f52e4b"><div class="source"><a href="https://youtu.be/tQcF6SqWCoY">https://youtu.be/tQcF6SqWCoY</a></div></figure><figure id="92802c7b-af49-42d9-98d5-bac1ab73b4f4"><div class="source"><a href="https://youtu.be/kaZOF4EEPqk">https://youtu.be/kaZOF4EEPqk</a></div></figure><figure id="0b92ec3a-ec61-478b-9e33-5ce07c07a0dd"><div class="source"><a href="https://youtu.be/Tvz5rREeLkA">https://youtu.be/Tvz5rREeLkA</a></div></figure><h2 id="55086de5-ba30-4989-ac9c-24598f37db5a" class="">Pipeline for containerised apps</h2><figure id="3c95bd75-b359-4479-b8c3-bc101d7c6441"><div class="source"><a href="https://youtu.be/jJ4WgX2aOcs">https://youtu.be/jJ4WgX2aOcs</a></div></figure><figure id="23a4b207-fef3-4794-bff6-962823f1ddda"><div class="source"><a href="https://youtu.be/00qQaoC-5ig">https://youtu.be/00qQaoC-5ig</a></div></figure><h2 id="aa4581d5-8c93-4a1b-8699-53d1830ed6ba" class="">CodeDeploy</h2><figure id="6b76636a-6a65-4d62-82c5-27e38fdac44f"><div class="source"><a href="https://youtu.be/A4NSyUbAEkw">https://youtu.be/A4NSyUbAEkw</a></div></figure><h2 id="e4e9703c-dd19-4c8a-b633-351f2d36afbd" class="">Local build with CodeBuild</h2><figure id="c0b0e539-7ded-49f3-af77-5fc7561b6282"><div class="source"><a href="https://youtu.be/N3pW4ZCeCxA">https://youtu.be/N3pW4ZCeCxA</a></div></figure><h2 id="2d77ebeb-7414-4d76-b1fa-21d4e7b49bee" class="">Advanced topics</h2><figure id="638a3de2-3ee6-4693-99c1-c6ae2461f735"><div class="source"><a href="https://youtu.be/YGSJMpNTSaA">https://youtu.be/YGSJMpNTSaA</a></div></figure><h2 id="fafbc905-f640-494c-a0fa-99b466b04c8e" class="">End-to-end example: deploying a .net application with code* tools</h2><figure id="c3e919af-de48-4d72-8982-a1a3236a3521"><div class="source"><a href="https://youtu.be/4SB1t1yW9aE">https://youtu.be/4SB1t1yW9aE</a></div></figure><figure id="186bb2a9-eaa2-403b-aeb1-0a95d3e71bc6"><div class="source"><a href="https://youtu.be/5NSRjb_1pOI">https://youtu.be/5NSRjb_1pOI</a></div></figure><figure id="c3824201-f183-4c1a-9edd-e645d5d00ca0"><div class="source"><a href="https://youtu.be/NCXzTgjUOQo">https://youtu.be/NCXzTgjUOQo</a></div></figure><h1 id="bef7bd6a-be94-4c22-b5d3-b75d1ae56a53" class="">Exercise</h1><ol type="1" id="fedfebaf-b967-4da6-85b7-feac0df85fc2" class="numbered-list" start="1"><li>Create a CI/CD pipeline using Terraform</li></ol><ol type="1" id="c9b3f876-5e0d-4da0-bd2b-c5b5f9b3e2ba" class="numbered-list" start="2"><li>Create another CI/CD pipeline using CloudFormation</li></ol><ol type="1" id="d742316e-39ef-4e03-a7de-a8be8a5f92d8" class="numbered-list" start="3"><li>Choose an application that you’ve already developed and deploy it using one of the CI/CD pipelines you’ve created in 1. or 2. Build jobs will be based on CodeBuild. Host code in a git repository. Use CodeDeploy when is possible.<p id="ac425d8d-6945-4b13-949e-99f6632a72b7" class="">Target for deployments:</p><ul id="75857f8d-5643-499e-aa46-1b2f46fbae3d" class="bulleted-list"><li style="list-style-type:disc">On EC2</li></ul><ul id="9b91820a-fbfa-4ef5-aaba-90a079ed98a3" class="bulleted-list"><li style="list-style-type:disc">On a serverless platform (ECS/Fargate or Lambda). In case of containers, they have to be hosted in ECR.</li></ul><ul id="95647545-2bd8-45fc-8417-c8bf72d9b7f5" class="bulleted-list"><li style="list-style-type:disc">On your local machine using CodeBuild agent (just the build part is enough)</li></ul></li></ol><ol type="1" id="69646558-9c5f-4fb6-b572-be17cbdb1267" class="numbered-list" start="4"><li>Prepare a demo to show how to deploy updates to the app live via <code>git push + CI/CD</code></li></ol><p id="707994d9-1ac7-41fb-935d-3ad544b6276f" class="">
+    </p></div></article></body></html>
